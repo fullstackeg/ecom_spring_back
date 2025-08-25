@@ -1,5 +1,6 @@
 package com.fullstack.ecom_spring_back.entity;
 
+import com.fullstack.ecom_spring_back.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +16,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Sell {
+public class Sell extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime sellDate;
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    private Double price;
+    private Double sellPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @ManyToMany
-    @JoinTable(
-            name = "sell_products",
-            joinColumns = @JoinColumn(name = "sell_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }
