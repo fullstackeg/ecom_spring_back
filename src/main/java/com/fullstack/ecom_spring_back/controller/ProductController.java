@@ -1,5 +1,6 @@
 package com.fullstack.ecom_spring_back.controller;
 
+import com.fullstack.ecom_spring_back.entity.Category;
 import com.fullstack.ecom_spring_back.entity.Product;
 import com.fullstack.ecom_spring_back.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,15 @@ public class ProductController {
     //POST: Add Product
     @PostMapping("/create")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product saved = productService.createProduct(product);
+        Product saved = productService.addProduct(product);
         return ResponseEntity.ok(saved);
     }
 
     //POST: Update Product
     @PostMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Product updatedProduct = productService.updateProduct(id, product);
+        return ResponseEntity.ok(updatedProduct);
     }
 
     //GET: All Products

@@ -18,15 +18,22 @@ public class CategoryService {
 
     //Add Category
     public Category addCategory(Category category) {
+        //check if name already exists
+        if(categoryRepository.existsByNameIgnoreCase(category.getName())) {
+            throw new RuntimeException("Category with name '" + category.getName() + "' already exists");
+        }
         return categoryRepository.save(category);
     }
 
     //Update Category
-    public Optional<Category> updateCategory(Long id, Category category) {
-        return categoryRepository.findById(id).map(existing -> {
-            existing.setName(category.getName());
-            return categoryRepository.save(existing);
-        });
+    public Category updateCategory(Long id, Category updated) {
+        Category existing = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("No Category with id '" + id + "' Found"));
+        //check if new name already exists (and not the same category)
+        if(!existing.getName().equalsIgnoreCase(updated.getName()) && categoryRepository.existsByNameIgnoreCase(updated.getName())) {
+            throw new RuntimeException("Category with name '" + updated.getName() + "' already exists");
+        }
+        existing.setName(updated.getName());
+        return categoryRepository.save(existing);
     }
 
     //Get All Categories

@@ -26,9 +26,8 @@ public class CategoryController {
     //POST: Update Category
     @PostMapping("/update/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
-        return categoryService.updateCategory(id, category)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+       Category updatedCategory = categoryService.updateCategory(id, category);
+       return ResponseEntity.ok(updatedCategory);
     }
 
     //GET: All Categories

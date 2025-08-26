@@ -28,10 +28,7 @@ public class Sell extends BaseEntity{
     private Double price;
     private Double sellPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
-
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
 }

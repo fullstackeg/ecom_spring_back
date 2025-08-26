@@ -1,5 +1,6 @@
 package com.fullstack.ecom_spring_back.service;
 
+import com.fullstack.ecom_spring_back.entity.Category;
 import com.fullstack.ecom_spring_back.entity.Product;
 import com.fullstack.ecom_spring_back.repository.ProductRepository;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +18,25 @@ public class ProductService {
     }
 
     //Add Product
-    public Product createProduct(Product product) {
+    public Product addProduct(Product product) {
+        if(productRepository.existsByNameIgnoreCase(product.getName())) {
+            throw new RuntimeException("Product with name " + product.getName() + " already exists");
+        }
         return productRepository.save(product);
     }
 
     //update Product
-    public Optional<Product> updateProduct(Long id, Product updatedProduct) {
-        return productRepository.findById(id).map(existing -> {
-            existing.setName(updatedProduct.getName());
-            existing.setPrice(updatedProduct.getPrice());
-            existing.setSellPrice(updatedProduct.getSellPrice());
-            existing.setStock(updatedProduct.getStock());
-            existing.setCategory(updatedProduct.getCategory());
-            return productRepository.save(existing);
-        });
+    public Product updateProduct(Long id, Product updated) {
+        Product existing = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product with id " + id + " does not exist"));
+        if(!existing.getName().equalsIgnoreCase(updated.getName()) && productRepository.existsByNameIgnoreCase(updated.getName())) {
+            throw new RuntimeException("Product with name " + updated.getName() + " already exists");
+        }
+        existing.setName(updated.getName());
+        existing.setPrice(updated.getPrice());
+        existing.setSellPrice(updated.getSellPrice());
+        existing.setStock(updated.getStock());
+        existing.setCategory(updated.getCategory());
+        return productRepository.save(existing);
     }
 
     //get all products

@@ -20,7 +20,4 @@ public class Client extends BaseEntity {
     private Long id;
     private String name;
     private String phone;
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Sell> sells;
 }
