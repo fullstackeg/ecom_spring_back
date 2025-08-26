@@ -1,5 +1,6 @@
 package com.fullstack.ecom_spring_back.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +25,6 @@ public class Product extends BaseEntity {
     private Integer stock;
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonBackReference  //prevents infinite recursion
     private Category category;
 }
