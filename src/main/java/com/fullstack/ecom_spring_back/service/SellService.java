@@ -6,7 +6,10 @@ import com.fullstack.ecom_spring_back.enums.Status;
 import com.fullstack.ecom_spring_back.repository.ProductRepository;
 import com.fullstack.ecom_spring_back.repository.SellRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +51,10 @@ public class SellService {
 
         sell.setStatus(Status.CANCELED);
         return sellRepository.save(sell);
+    }
+
+    //Get All Sells
+    public List<Sell> getAllSells() {
+        return sellRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 }

@@ -7,13 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/sells")
 @RequiredArgsConstructor
 public class SellController {
     private final SellService sellService;
-    private final SellRepository sellRepository;
-
     //POST: Create Sell
     @PostMapping("/create")
     public ResponseEntity<Sell> create(@RequestBody Sell sell) {
@@ -33,5 +33,10 @@ public class SellController {
     public ResponseEntity<Sell> cancelSell(@PathVariable Long id) {
         Sell saved = sellService.cancelSell(id);
         return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Sell>> getAllSells() {
+        return ResponseEntity.ok(sellService.getAllSells());
     }
 }
