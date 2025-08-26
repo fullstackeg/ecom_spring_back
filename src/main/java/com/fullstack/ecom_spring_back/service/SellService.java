@@ -57,4 +57,9 @@ public class SellService {
     public List<Sell> getAllSells() {
         return sellRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
+
+    //Get Sell By Status
+    public List<Sell> getSellsByStatus(Status status) {
+        return sellRepository.findByStatus(status);
+    }
 }

@@ -1,6 +1,7 @@
 package com.fullstack.ecom_spring_back.controller;
 
 import com.fullstack.ecom_spring_back.entity.Sell;
+import com.fullstack.ecom_spring_back.enums.Status;
 import com.fullstack.ecom_spring_back.repository.SellRepository;
 import com.fullstack.ecom_spring_back.service.SellService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class SellController {
     @GetMapping
     public ResponseEntity<List<Sell>> getAllSells() {
         return ResponseEntity.ok(sellService.getAllSells());
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Sell>> getSellsByStatus(@PathVariable Status status) {
+        return ResponseEntity.ok(sellService.getSellsByStatus(status));
     }
 }
