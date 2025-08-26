@@ -14,13 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Client {
+public class Client extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fullName;
-    private String email;
+    private String name;
     private String phone;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sell> sells;
 }
