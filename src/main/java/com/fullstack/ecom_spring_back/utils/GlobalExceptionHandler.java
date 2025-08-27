@@ -1,9 +1,12 @@
 package com.fullstack.ecom_spring_back.utils;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,5 +38,14 @@ public class GlobalExceptionHandler {
         }
 
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    //404 URL handler
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNoHandlerFoundException(NoResourceFoundException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Not Found");
+        errors.put("message", "This URL was not found on this server");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 }
