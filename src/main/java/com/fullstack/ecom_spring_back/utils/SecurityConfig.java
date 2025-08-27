@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthEntryPoint customAuthEntryPoint) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
@@ -19,7 +19,9 @@ public class SecurityConfig {
                     .requestMatchers("/api/sells/**").hasAnyRole("ADMIN", "USER") //both can access
                     .anyRequest().authenticated()
                  )
-            .httpBasic(Customizer.withDefaults()); //basic auth (switch to JWT Later)
+            .httpBasic(Customizer.withDefaults()) //basic auth (switch to JWT Later)
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(customAuthEntryPoint)); //handle 401
         return http.build();
     }
 }
