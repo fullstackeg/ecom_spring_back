@@ -1,22 +1,31 @@
 package com.fullstack.ecom_spring_back.controller;
 
 import com.fullstack.ecom_spring_back.entity.User;
-import com.fullstack.ecom_spring_back.repository.UserRepository;
+import com.fullstack.ecom_spring_back.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/auth")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.ok(userRepository.save(user));
+        User saved = userService.register(user);
+        return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        if (users.isEmpty()) {
+            throw new RuntimeException("No users found");
+        }
+        return ResponseEntity.ok(users);
     }
 }
