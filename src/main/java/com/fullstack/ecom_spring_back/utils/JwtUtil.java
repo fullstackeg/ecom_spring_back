@@ -41,7 +41,7 @@ public class JwtUtil {
                 .get("role");
     }
 
-    private boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         return extractUsername(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
