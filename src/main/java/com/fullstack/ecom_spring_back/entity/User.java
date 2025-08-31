@@ -1,5 +1,6 @@
 package com.fullstack.ecom_spring_back.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +19,10 @@ public class User extends BaseEntity {
     private Long id;
     @Column(unique = true, nullable = false)
     private String username;
+    @JsonIgnore
     private String password;
     @Column(unique = true, nullable = false)
     private String email;
+    @JsonIgnore
     private String role; //ADMIN, USER
 }
