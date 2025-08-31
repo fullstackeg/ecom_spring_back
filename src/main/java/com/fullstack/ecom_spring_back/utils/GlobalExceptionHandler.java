@@ -2,6 +2,7 @@ package com.fullstack.ecom_spring_back.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -47,5 +48,24 @@ public class GlobalExceptionHandler {
         errors.put("error", "Not Found");
         errors.put("message", "This URL was not found on this server");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+    }
+
+    //Null Pointer Exception Handling
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Map<String, String>> handleNullPointerException(NullPointerException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Blank");
+        errors.put("message", "Field cannot be bland");
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+
+    //Http Message Not Readable Exeption Handling
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> requiredRequestBodyMissingException(HttpMessageNotReadableException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Body Missing or Empty");
+        errors.put("message", "Required request body is missing");
+        return ResponseEntity.badRequest().body(errors);
     }
 }
