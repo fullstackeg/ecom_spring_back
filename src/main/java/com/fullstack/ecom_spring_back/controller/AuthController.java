@@ -61,6 +61,10 @@ public class AuthController {
 
         //return token + role
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        //Strip ROLE_ prefix
+        if(role.startsWith("ROLE_")) {
+            role = role.replace("ROLE_", "");
+        }
         return ResponseEntity.ok(new LoginResponse(token, role));
     }
 }
