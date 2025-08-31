@@ -10,15 +10,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User saved = userService.register(user);
-        return ResponseEntity.ok(saved);
-    }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
