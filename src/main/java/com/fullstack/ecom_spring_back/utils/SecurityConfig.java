@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) //enable CORS support
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() //login / register are public
-                    .requestMatchers("/api/products/**").hasRole("ADMIN") //only ADMIN
+                    .requestMatchers("/api/products/**").hasAnyRole("ADMIN", "USER") //only ADMIN
                     .requestMatchers("/api/sells/**").hasAnyRole("ADMIN", "USER") //both can access
                     .anyRequest().authenticated()
                  )
